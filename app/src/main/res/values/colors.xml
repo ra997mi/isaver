@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="darkThemeDark">#212121</color>
+    <color name="whiteColor">#ffffff</color>
+    <color name="darkTheme">#242424</color>
+    <color name="ERROR">#D50000</color>
+    <color name="Warning">#FFA900</color>
+</resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IGTV Saver</string>
+    <string name="please_wait">الرجاء الانتظار</string>
+    <string name="hello">مرحبا</string>
+    <string name="action_settings">الأعدادات</string>
+    <string name="exit">الخروج</string>
+    <string name="copied_to_clipboard">تم النسخ في الحافظة</string>
+    <string name="no_connection">الرجاء التحقق من الاتصال</string>
+    <string name="downloading">جاري التحميل</string>
+    <string name="welcome_text">مرحبا في</string>
+    <string name="error">فشل في التحميل</string>
+    <string name="connection">اتصال بلانترنت</string>
+    <string name="version">الاصدار: %1s</string>
+    <string name="guide">دليل الاستحدام</string>
+    <string name="no_copy">لم تقم بنسخ اي رابط</string>
+    <string name="correct_url">الرجاء نسخ رابط انستغرام تي في الصحيح</string>
+    <string name="share_link">مشاركة الرابط</string>
+    <string name="guide_description">قم بنسخ رابط انستغرام تي في ثم قم بلضغط على زر التشغيل لمشاهدة وتحميل الفيديو</string>
+    <string name="clipboard_error">تعذر قرائه بيانات حافظة النسخ يرجى اعادة تشغيل التطبيق</string>
+    <string name="just">فقط قم بنسخ رابط انستغرام تي في من تطبيق انستغرام ثم قم بلضغط على زر التشغيل</string>
+    <string name="fast_link">خدمة الوصول السريع للرابط</string>
+    <string name="auto_link">التحقق من روابط انستغرام تي في عند عدم استخدام التطبيق</string>
+    <string name="link_founded">تم العثور على رابط انستغرام تي في</string>
+    <string name="link_download">تم حفظ الرابط قم بلضفط على الاشعارات لفتح التطبيق</string>
+</resources>

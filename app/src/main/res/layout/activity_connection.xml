@@ -1,0 +1,81 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_launcher_background">
+
+    <TextView
+        android:textColor="@color/whiteColor"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/connection"/>
+
+    <ImageView
+        android:layout_margin="16dp"
+        android:id="@+id/broken_tv"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:background="@drawable/broken_tv"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:textAlignment="center"
+        android:textColor="@color/whiteColor"
+        android:id="@+id/check_your_connection"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/broken_tv"
+        android:layout_centerInParent="true"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_connection"/>
+
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_below="@id/check_your_connection"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:drawableLeft="@drawable/ic_settings"
+            android:textAllCaps="false"
+            android:layout_margin="5dp"
+            android:background="@color/whiteColor"
+            android:id="@+id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="@string/action_settings"
+            android:textColor="@color/darkThemeDark"
+            android:textStyle="italic|bold"
+            tools:ignore="ButtonStyle"
+            android:drawableStart="@drawable/ic_settings" />
+
+        <Button
+            android:textAllCaps="false"
+            android:drawableLeft="@drawable/ic_exit"
+            android:layout_margin="5dp"
+            android:background="@color/whiteColor"
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="onClick"
+            android:text="@string/exit"
+            android:textColor="@color/darkThemeDark"
+            android:textStyle="italic|bold"
+            tools:ignore="ButtonStyle"
+            android:drawableStart="@drawable/ic_exit" />
+
+    </LinearLayout>
+
+</RelativeLayout>
