@@ -74,6 +74,15 @@
                 android:layout_toStartOf="@id/share_btn"
                 tools:ignore="ContentDescription" />
 
+            <ImageButton
+                android:id="@+id/back_btn"
+                android:src="@drawable/ic_arrow_back"
+                style="@android:style/MediaButton.Next"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                tools:ignore="ContentDescription" />
+
             <TextView
                 android:id="@+id/elapsed_time"
                 android:textSize="14sp"

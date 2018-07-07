@@ -89,7 +89,7 @@ public class ClipboardService extends Service implements OnPrimaryClipChangedLis
                 if (link != null) {
                     ClipData.Item item = link.getItemAt(0);
                     String mClipboardUrl = item.getText().toString();
-                    if (mClipboardUrl.contains("www.instagram.com/tv/")) {
+                    if (mClipboardUrl.contains("www.instagram.com/tv/") || mClipboardUrl.contains("www.instagram.com/p/")) {
                         showNotification();
                     }
                 }

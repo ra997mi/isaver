@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="ButtonPrimary">#E54F93</color>
     <color name="darkThemeDark">#212121</color>
     <color name="whiteColor">#ffffff</color>
     <color name="darkTheme">#242424</color>

@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -55,15 +54,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mClipboardIntent  = new Intent(this, ClipboardService.class);
 
-        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd = new InterstitialAd(MainActivity.this);
         mInterstitialAd.setAdUnitId(getString(R.string.ad_unit2));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
-            public void onAdClosed() {
-                startGame();
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                mInterstitialAd.show();
             }
         });
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         mClipboardService = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
 
@@ -85,9 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mFabProgressCircle = findViewById(R.id.fabProgressCircle);
 
-        startGame();
-        new Handler().postDelayed(this::showInterstitial, (long) 3000);
-
         if (mSharedPreferences.getBoolean("isFirstStarted",true)) {
             new MaterialTapTargetPrompt.Builder(MainActivity.this)
                     .setTarget(mFabOpen)
@@ -101,21 +98,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void startGame() {
-        if (!mInterstitialAd.isLoading() && !mInterstitialAd.isLoaded()) {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mInterstitialAd.loadAd(adRequest);
-        }
-    }
-
-    private void showInterstitial() {
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        } else {
-            startGame();
-        }
-    }
-
     @Override
     public void onClick(View view) {
         try {
@@ -126,41 +108,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG, "ClipboardData: " + mClipboardUrl);
 
                 if (mClipboardUrl.isEmpty()){
-                    Alerter.create(this)
-                            .setTitle(getString(R.string.app_name))
-                            .setText(getString(R.string.no_copy))
-                            .setIcon(R.drawable.ic_error)
-                            .setBackgroundColorRes(R.color.Warning)
-                            .show();
+                    showAlert(R.string.no_copy_title, R.string.no_copy, R.color.Warning);
                 }
-                else if (mClipboardUrl.contains("www.instagram.com/tv/")){
+                else if (mClipboardUrl.contains("www.instagram.com/tv/") || mClipboardUrl.contains("www.instagram.com/p/")){
                     mFabProgressCircle.show();
                     Toasty.info(MainActivity.this ,getString(R.string.please_wait),0).show();
                     new getTV(this, mClipboardUrl).execute();
                 }
                 else {
-                    Alerter.create(this)
-                            .setTitle(getString(R.string.app_name))
-                            .setText(getString(R.string.correct_url))
-                            .setIcon(R.drawable.ic_error)
-                            .setBackgroundColorRes(R.color.Warning)
-                            .show();
+                    showAlert(R.string.correct_url_title, R.string.correct_url, R.color.Warning);
                 }
             }
             else {
-                Alerter.create(this)
-                        .setTitle(getString(R.string.app_name))
-                        .setText(getString(R.string.clipboard_error))
-                        .setIcon(R.drawable.ic_error)
-                        .setBackgroundColorRes(R.color.ERROR)
-                        .show();
+                showAlert(R.string.clipboard_error_title, R.string.clipboard_error, R.color.ERROR);
             }
 
         } catch (Exception ex){
+            showAlert(R.string.clipboard_error_title, R.string.clipboard_error, R.color.ERROR);
             Log.e(TAG, "onClick: " + mClipboardService, ex);
             ex.printStackTrace();
         }
 
+    }
+
+    private void showAlert(int title, int message, int color){
+        Alerter.create(this)
+                .setTitle(getString(title))
+                .setText(getString(message))
+                .setIcon(R.drawable.ic_error)
+                .setBackgroundColorRes(color)
+                .show();
     }
 
     private static class getTV extends AsyncTask<Void, Void, String>{
@@ -207,6 +184,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     i.putExtra("VideoName", Utility.getVideoName(data));
                     activity.startActivity(i);
                     activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+                else {
+                    activity.showAlert(R.string.no_video_title, R.string.no_video, R.color.ERROR);
                 }
             } catch (Error ex){
                 Log.e(TAG, "onPostExecute: mClipboardUrl:" + mUrl + " mDownloadingUrl: " + data,ex);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">IGTV Saver</string>
+    <string name="app_name" translatable="false">IGTV Saver</string>
     <string name="proximadev" translatable="false">\u00A9 ProximaDev Team %1d</string>
     <string name="version">Version: %1s</string>
     <string name="welcome_text">Welcome to</string>
@@ -7,8 +7,9 @@
     <string name="exit">Close</string>
     <string name="no_connection">Seems you are not connected, please check your internet connection!</string>
     <string name="connection">Internet Connection</string>
-    <string name="correct_url">No IGTV, Please copy a correct IGTV Link</string>
-    <string name="error">Error, Can\'t load IGTV video</string>
+    <string name="correct_url">Please copy a correct IGTV or video post Link</string>
+    <string name="correct_url_title">No IGTV or video post found?</string>
+    <string name="error">Error, Can\'t load video</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="share_link">Share Link</string>
     <string name="downloading">Downloading</string>
@@ -16,13 +17,17 @@
     <string name="ad_unit1" translatable="false">ca-app-pub-3836303927954880/2915616228</string>
     <string name="ad_unit2" translatable="false">ca-app-pub-3836303927954880/1847266500</string>
     <string name="guide">Guide</string>
-    <string name="guide_description">Copy IGTV link from instagram, then click on this button, to watch and download the video</string>
+    <string name="guide_description">Copy IGTV or video post link from instagram, then click on this button, to watch and download the video</string>
     <string name="no_copy">You have\'t copy any link yet!</string>
-    <string name="clipboard_error">Error, can\'t read clipboard data!, restart the app and try again!</string>
+    <string name="no_copy_title">No Link!?</string>
+    <string name="clipboard_error">Error, can\'t read clipboard data!, copy link first, restart the app and try again!</string>
     <string name="hello">Hello</string>
-    <string name="just">Just copy an instagram TV link from Instgram app and click on the play button bellow</string>
+    <string name="just">Just copy an instagram TV or video post link from Instagram app and click on the play button bellow</string>
     <string name="fast_link">Fast Link Service</string>
-    <string name="auto_link">*Auto check IGTV links when you are not using the app</string>
-    <string name="link_founded">IGTV Video Link</string>
-    <string name="link_download">IGTV link saved, Click here to open the app</string>
+    <string name="auto_link">*Auto check instagram TV or video post links when you are not using the app</string>
+    <string name="link_founded">Instagram Link</string>
+    <string name="link_download">Instagram Link saved, Click here to open the app</string>
+    <string name="no_video">Are you sure you copied the right video link?</string>
+    <string name="no_video_title">No Video Found!?</string>
+    <string name="clipboard_error_title">Clipboard Data</string>
 </resources>

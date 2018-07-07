@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.github.ybq.android.spinkit.SpinKitView;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.remmoo997.igtvsaver.R;
@@ -54,15 +53,8 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_video);
         mSpinKitView = findViewById(R.id.loading);
 
-        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd = new InterstitialAd(VideoActivity.this);
         mInterstitialAd.setAdUnitId(getString(R.string.ad_unit1));
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                startGame();
-            }
-        });
-
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         mVideoUrl = getIntent().getStringExtra("VideoUrl");
@@ -98,6 +90,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.download_btn).setOnClickListener(this);
         findViewById(R.id.share_btn).setOnClickListener(this);
         findViewById(R.id.copy_btn).setOnClickListener(this);
+        findViewById(R.id.back_btn).setOnClickListener(this);
 
         mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -113,24 +106,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                     mVideoView.seekTo(progress);
             }
         });
-
-        startGame();
-    }
-
-    private void startGame() {
-        if (!mInterstitialAd.isLoading() && !mInterstitialAd.isLoaded()) {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mInterstitialAd.loadAd(adRequest);
-        }
-    }
-
-    private void showInterstitial() {
-        // Show the ad if it's ready. Otherwise toast and restart the game.
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        } else {
-            startGame();
-        }
     }
 
     private void getVideo(String mUrl, String mName){
@@ -226,7 +201,9 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.download_btn:
                 if (isPermissionsGranted()) {
-                    showInterstitial();
+                    if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                    }
                     getVideo(mVideoUrl, mVideoName);
                 }
                 break;
@@ -244,6 +221,9 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                     clipboard.setPrimaryClip(clip);
                     Toasty.success(this, getString(R.string.copied_to_clipboard), 0).show();
                 }
+                break;
+            case R.id.back_btn:
+                finish();
                 break;
         }
     }
