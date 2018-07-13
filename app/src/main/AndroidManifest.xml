@@ -32,13 +32,15 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".activities.VideoActivity"
-            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:theme="@style/MediaStyle" />
+        <activity
+            android:name=".activities.PhotoActivity"
             android:launchMode="singleTask"
             android:theme="@style/MediaStyle" />
         <activity
             android:name=".activities.ConnectionActivity"
             android:launchMode="singleTask" />
-
         <service
             android:name=".services.ClipboardService" />
     </application>

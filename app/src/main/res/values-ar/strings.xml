@@ -12,19 +12,22 @@
     <string name="version">الاصدار: %1s</string>
     <string name="guide">دليل الاستحدام</string>
     <string name="no_copy">لم تقم بنسخ اي رابط</string>
-    <string name="correct_url">الرجاء نسخ رابط انستغرام تي في او انستغرام فيديو الصحيح</string>
     <string name="share_link">مشاركة الرابط</string>
-    <string name="guide_description">قم بنسخ رابط انستغرام تي في او انستغرام فيديو ثم قم بلضغط على زر التشغيل لمشاهدة وتحميل الفيديو</string>
+    <string name="guide_description">قم بنسخ رابط انستغرام تي في او اي رابط انستغرام ثم قم بلضغط على زر التشغيل لمشاهدة والتحميل</string>
     <string name="clipboard_error">تعذر قرائه بيانات حافظة النسخ يرجى اعادة تشغيل التطبيق</string>
-    <string name="just">فقط قم بنسخ رابط انستغرام تي في او انستغرام فيديو من تطبيق انستغرام ثم قم بلضغط على زر التشغيل</string>
+    <string name="just">فقط قم بنسخ رابط انستغرام تي في او اي رابط انستغرام من تطبيق انستغرام ثم قم بلضغط على زر التشغيل</string>
     <string name="fast_link">خدمة الوصول السريع للرابط</string>
     <string name="auto_link">التحقق من روابط انستغرام عند عدم استخدام التطبيق</string>
     <string name="link_founded">"تم العثور على رابط انستغرام "</string>
     <string name="link_download">تم حفظ الرابط قم بلضفط على الاشعارات لفتح التطبيق</string>
     <string name="welcome_text">مرحبا بكم</string>
-    <string name="correct_url_title">لم يتم العثور على اي فيديو؟</string>
+    <string name="correct_url_title">لم يتم العثور على اي بيانات؟</string>
     <string name="no_video">هل انت متاكد من نسخ رابط انستغرام الصحيح؟</string>
-    <string name="no_video_title">لم يتم العثور على فيديو</string>
+    <string name="no_video_title">لم يتم العثور على بيانات</string>
     <string name="clipboard_error_title">بيانات الحافظة</string>
     <string name="no_copy_title">لا يوجد رابط</string>
+    <string name="copy_link">نسخ الرابط</string>
+    <string name="cant_copy">عذرا, حدث خطا اثناء نسخ الرابط</string>
+    <string name="download">تحميل</string>
+    <string name="correct_url">الرجاء قم بنسخ الرابط الصحيح الخاص بالانستغرام تي في او اي رابط انستغرام</string>
 </resources>

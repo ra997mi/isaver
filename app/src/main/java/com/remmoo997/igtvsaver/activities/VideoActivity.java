@@ -14,7 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -33,11 +32,10 @@ import es.dmoral.toasty.Toasty;
 
 public class VideoActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private static final String TAG = "VideoActivity";
     private VideoView mVideoView;
     private int position = 0;
     private SeekBar mSeekbar;
-    private String mVideoUrl, mVideoName;
+    private String mVideoUrl, mVideoName, mVideoLink;
     private TextView mElapsedTime, mRemainingTime;
     private InterstitialAd mInterstitialAd;
     private SpinKitView mSpinKitView;
@@ -45,7 +43,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: Called.");
 
         // Make screen Portrait to disable Landscape orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -54,11 +51,12 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         mSpinKitView = findViewById(R.id.loading);
 
         mInterstitialAd = new InterstitialAd(VideoActivity.this);
-        mInterstitialAd.setAdUnitId(getString(R.string.ad_unit1));
+        mInterstitialAd.setAdUnitId(getString(R.string.ad_unit2));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         mVideoUrl = getIntent().getStringExtra("VideoUrl");
         mVideoName = getIntent().getStringExtra("VideoName");
+        mVideoLink = getIntent().getStringExtra("VideoLink");
 
         mVideoView = findViewById(R.id.video_view);
         mSeekbar = findViewById(R.id.progress);
@@ -109,7 +107,6 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void getVideo(String mUrl, String mName){
-        Log.d(TAG, "getTheVideo: Function Called.");
 
         if (mUrl != null && mName != null) {
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mUrl));
@@ -130,16 +127,13 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private boolean isPermissionsGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                Log.v(TAG,"Permissions is granted");
                 return true;
             } else {
-                Log.v(TAG,"Permissions is revoked");
                 RequestStoragePermission();
                 return false;
             }
         } else {
             // Permission is automatically granted on sdk < 23 upon installation
-            Log.v(TAG,"Permissions is granted");
             return true;
         }
     }
@@ -210,13 +204,13 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
             case R.id.share_btn:
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT,"IGTVSaver-Share Link:");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, mVideoUrl);
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.app_name));
+                shareIntent.putExtra(Intent.EXTRA_TEXT, mVideoLink);
                 startActivity(Intent.createChooser(shareIntent, getString(R.string.share_link)));
                 break;
             case R.id.copy_btn:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newUri(getContentResolver(), "IGTVSaver-Shared Link:", Uri.parse(mVideoUrl));
+                ClipData clip = ClipData.newUri(getContentResolver(), getString(R.string.app_name), Uri.parse(mVideoLink));
                 if (clipboard != null) {
                     clipboard.setPrimaryClip(clip);
                     Toasty.success(this, getString(R.string.copied_to_clipboard), 0).show();

@@ -1,28 +1,70 @@
 package com.remmoo997.igtvsaver.utils;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
+import java.util.Calendar;
 
 public final class Utility {
 
     public static String getVideoName(@NonNull String mUrl) {
         try {
+            String img = "IGTVSaver-VID-";
             String[] separated = mUrl.split("/");
-            String myVideoName = separated[separated.length - 1];
+            String mVideoName = separated[separated.length - 1];
 
-            if (myVideoName.indexOf(".") > 0)
-                myVideoName = myVideoName.substring(0, myVideoName.lastIndexOf("."));
+            if(mVideoName.contains(".mp4"))
+                mVideoName = img + mVideoName.substring(0, 8) + ".mp4";
 
-            myVideoName = myVideoName.substring(0, 8);
+            else if(mVideoName.contains(".m3u8"))
+                mVideoName = img + mVideoName.substring(0, 8) + ".m3u8";
 
-            if(!myVideoName.contains(".mp4"))
-                myVideoName = "IGTVSaver-VID-" +  myVideoName + ".mp4";
+            else
+                mVideoName = img + mVideoName.substring(0, 8) + ".mp4";
 
-            return myVideoName;
+            return mVideoName;
         } catch (Exception ex){
-            Log.i("Utility", "getVideoName: can't get video name");
+            ex.printStackTrace();
             return "IGTVSaver-Video.mp4";
         }
+    }
+
+    public static String getPictureName(@NonNull String mUrl) {
+        try {
+            String img = "IGTVSaver-IMG-";
+            String[] separated = mUrl.split("/");
+            String mPictureName = separated[separated.length - 1];
+
+            if(mPictureName.contains(".jpg"))
+                mPictureName = img + mPictureName.substring(0, 8) + ".jpg";
+
+            else if(mPictureName.contains(".gif"))
+                mPictureName = img + mPictureName.substring(0, 8) + ".gif";
+
+            else if (mPictureName.contains(".png"))
+                mPictureName = img + mPictureName.substring(0, 8) + ".png";
+
+            else
+                mPictureName = img + mPictureName.substring(0, 8) + ".jpg";
+
+            return mPictureName;
+        } catch (Exception ex){
+            ex.printStackTrace();
+            return "IGTVSaver-Picture.jpg";
+        }
+    }
+
+    public static String getAppVersion(Context context) {
+        try {
+            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "x";
+        }
+    }
+
+    public static int getYear(){
+        return Calendar.getInstance().get(Calendar.YEAR);
     }
 }
 

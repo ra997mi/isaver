@@ -16,7 +16,6 @@ public class ConnectionActivity extends AppCompatActivity {
 
         // Make screen Portrait to disable Landscape orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         setContentView(R.layout.activity_connection);
     }
 

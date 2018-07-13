@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClipboardIntent  = new Intent(this, ClipboardService.class);
 
         mInterstitialAd = new InterstitialAd(MainActivity.this);
-        mInterstitialAd.setAdUnitId(getString(R.string.ad_unit2));
+        mInterstitialAd.setAdUnitId(getString(R.string.ad_unit1));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static class getTV extends AsyncTask<Void, Void, String>{
 
+        private String mImageTitle = null;
         private final WeakReference<MainActivity> mActivityRef;
         private final String mUrl;
 
@@ -153,10 +154,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected String doInBackground(Void... voids) {
             try {
+                Elements element;
                 if (mUrl != null) {
+                    String data;
                     Document document = Jsoup.connect(mUrl).get();
-                    Elements elements = document.select("meta[property=og:video]");
-                    return elements.attr("content");
+                    element = document.select("meta[property=og:video]");
+                    data = element.attr("content");
+
+                    if (data != null && !data.isEmpty()){
+                        return data;
+                    } else {
+                        Elements title = document.select("meta[property=og:description]");
+                        mImageTitle = title.attr("content");
+                        mImageTitle = mImageTitle.substring(0, mImageTitle.indexOf("on Instagram"));
+                        element = document.select("meta[property=og:image]");
+                        data = element.attr("content");
+                        if (data != null && !data.isEmpty())
+                            return data;
+                    }
+
                 }
             } catch (Error ex) {
                 ex.printStackTrace();
@@ -182,6 +198,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Intent i = new Intent(activity, VideoActivity.class);
                     i.putExtra("VideoUrl", data);
                     i.putExtra("VideoName", Utility.getVideoName(data));
+                    i.putExtra("VideoLink", mUrl);
+                    activity.startActivity(i);
+                    activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+                else if (data != null && data.contains(".jpg") && !data.equals("ERROR")){
+                    Intent i = new Intent(activity, PhotoActivity.class);
+                    i.putExtra("PictureUrl", data);
+                    i.putExtra("PictureName", Utility.getPictureName(data));
+                    i.putExtra("PictureLink", mUrl);
+                    if (mImageTitle != null && !mImageTitle.isEmpty())
+                        i.putExtra("PictureTitle", mImageTitle.trim());
+                    else
+                        i.putExtra("PictureTitle", "IGTVSaver");
                     activity.startActivity(i);
                     activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
