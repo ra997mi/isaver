@@ -8,10 +8,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ClipboardManager.OnPrimaryClipChangedListener;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -53,7 +51,6 @@ public class ClipboardService extends Service implements OnPrimaryClipChangedLis
     }
 
     private void showNotification() {
-        Resources resources = getResources(), systemResources = Resources.getSystem();
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"mIGTVSaver_ID1")
@@ -73,13 +70,9 @@ public class ClipboardService extends Service implements OnPrimaryClipChangedLis
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
             builder.setPriority(Notification.PRIORITY_HIGH);
 
-        builder.setLights(Color.CYAN, resources.getInteger(systemResources.getIdentifier("config_defaultNotificationLedOn", "integer", "android")), resources.getInteger(systemResources.getIdentifier("config_defaultNotificationLedOff", "integer", "android")));
-
-        Notification notification = builder.build();
-
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (notificationManager != null)
-            notificationManager.notify(100, notification);
+            notificationManager.notify(100, builder.build());
     }
 
     private void clipboardCheck() {

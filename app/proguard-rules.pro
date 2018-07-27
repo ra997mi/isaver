@@ -13,12 +13,9 @@
 # and specify the fully qualified class name to the JavaScript interface
 #class:
 
--dontwarn android.databinding.**
--keep class android.databinding.** { *; }
-
--keepclassmembers class fqcn.of.javascript.interface.for.webview {
-    public *;
-}
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#    public *;
+#}
 
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
@@ -27,38 +24,10 @@
   public *;
 }
 
--keepclassmembers class * {
-    public void openFileChooser(android.webkit.ValueCallback, java.lang.String);
-    public void openFileChooser(android.webkit.ValueCallback);
-    public void openFileChooser(android.webkit.ValueCallback, java.lang.String, java.lang.String);
-    public boolean onShowFileChooser(android.webkit.WebView, android.webkit.ValueCallback, android.webkit.WebChromeClient.FileChooserParams);
-}
-
--keep class * extends android.webkit.WebChromeClient { *; }
-
--keep class android.support.v4.app.** { *; }
--keep interface android.support.v4.app.** { *; }
--keep class android.support.v7.app.** { *; }
--keep interface android.support.v7.app.** { *; }
-
--keepclassmembers class * extends android.webkit.WebChromeClient {
-   public void openFileChooser(...);
-}
-
-# Local fun
--keepclassmembers class * {
-    @android.webkit.JavascriptInterface <methods>;
-}
-
 -keeppackagenames org.jsoup.nodes
 
 -keep public class org.jsoup.** {
     public *;
-}
-
--keep public enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
 }
 
 # The following rules are used to strip any non essential Google Play Services classes and method.
@@ -72,9 +41,6 @@
 -keep public class com.google.ads.**{
    public *;
 }
-
-# For mediation
--keepattributes *Annotation*
 
 # Other required classes for Google Play Services
 # Read more at http://developer.android.com/google/play-services/setup.html
