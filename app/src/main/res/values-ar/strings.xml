@@ -10,7 +10,7 @@
     <string name="error">فشل في التحميل</string>
     <string name="connection">اتصال بلانترنت</string>
     <string name="version">الاصدار: %1s</string>
-    <string name="guide">دليل الاستحدام</string>
+    <string name="guide">دليل الاستخدام</string>
     <string name="no_copy">لم تقم بنسخ اي رابط</string>
     <string name="share_link">مشاركة الرابط</string>
     <string name="guide_description">قم بنسخ رابط انستغرام تي في او اي رابط انستغرام ثم قم بلضغط على زر التشغيل لمشاهدة والتحميل</string>
@@ -18,7 +18,7 @@
     <string name="just">فقط قم بنسخ رابط انستغرام تي في او اي رابط انستغرام من تطبيق انستغرام ثم قم بلضغط على زر التشغيل</string>
     <string name="fast_link">خدمة الوصول السريع للرابط</string>
     <string name="auto_link">التحقق من روابط انستغرام عند عدم استخدام التطبيق</string>
-    <string name="link_founded">"تم العثور على رابط انستغرام "</string>
+    <string name="link_founded">تم العثور على رابط انستغرام</string>
     <string name="link_download">تم حفظ الرابط قم بلضفط على الاشعارات لفتح التطبيق</string>
     <string name="welcome_text">مرحبا بكم</string>
     <string name="correct_url_title">لم يتم العثور على اي بيانات؟</string>
