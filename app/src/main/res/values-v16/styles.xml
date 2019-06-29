@@ -1,8 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/darkTheme</item>
         <item name="colorPrimaryDark">@color/darkThemeDark</item>
         <item name="colorAccent">@color/darkThemeDark</item>
+        <item name="fontFamily">@font/cairo</item>
+        <item name="android:fontFamily">@font/cairo</item>
     </style>
 
     <style name="MediaStyle" parent="Theme.AppCompat.Light.NoActionBar">
@@ -12,5 +15,4 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
 </resources>

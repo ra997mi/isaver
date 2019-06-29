@@ -2,6 +2,7 @@
 <resources>
     <color name="ButtonPrimary">#E54F93</color>
     <color name="darkThemeDark">#212121</color>
+    <color name="semiDark">#E6242424</color>
     <color name="whiteColor">#ffffff</color>
     <color name="darkTheme">#242424</color>
     <color name="ERROR">#D50000</color>

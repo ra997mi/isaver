@@ -5,10 +5,15 @@ import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
@@ -58,16 +63,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         Switch mSwitch = findViewById(R.id.fastlink);
-        mSwitch.setChecked(mSharedPreferences.getBoolean("ServiceOn",false));
+        mSwitch.setChecked(mSharedPreferences.getBoolean("ServiceOn", false));
         mSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {
                 startService(mClipboardIntent);
-            }
-            else {
+            } else {
                 stopService(mClipboardIntent);
             }
             Log.d(TAG, "Switch Value: " + b);
-            mSharedPreferences.edit().putBoolean("ServiceOn",b).apply();
+            mSharedPreferences.edit().putBoolean("ServiceOn", b).apply();
         });
 
         FloatingActionButton mFabOpen = findViewById(R.id.getFab);
@@ -75,18 +79,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mFabProgressCircle = findViewById(R.id.fabProgressCircle);
 
-        if (mSharedPreferences.getBoolean("isFirstStarted",true)) {
+        if (mSharedPreferences.getBoolean("isFirstStarted", true)) {
             new MaterialTapTargetPrompt.Builder(MainActivity.this)
                     .setTarget(mFabOpen)
                     .setBackButtonDismissEnabled(false)
                     .setPrimaryText(getString(R.string.guide))
+                    .setBackgroundColour(ContextCompat.getColor(this,R.color.semiDark))
                     .setPromptBackground(new FullscreenPromptBackground())
                     .setSecondaryText(getString(R.string.guide_description))
                     .show();
-            mSharedPreferences.edit().putBoolean("isFirstStarted",false).apply();
+            mSharedPreferences.edit().putBoolean("isFirstStarted", false).apply();
         }
 
-        if (getIntent() != null && getIntent().getDataString() != null){
+        if (getIntent() != null && getIntent().getDataString() != null) {
             OPENED_FROM_OUTSIDE = getIntent().getDataString();
         }
 
@@ -95,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (getIntent() != null && getIntent().getDataString() != null){
+        if (getIntent() != null && getIntent().getDataString() != null) {
             OPENED_FROM_OUTSIDE = getIntent().getDataString();
         }
     }
@@ -103,43 +108,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         try {
-            if (OPENED_FROM_OUTSIDE != null && (OPENED_FROM_OUTSIDE.contains("www.instagram.com/tv/") || OPENED_FROM_OUTSIDE.contains("www.instagram.com/p/"))){
+            if (OPENED_FROM_OUTSIDE != null && (OPENED_FROM_OUTSIDE.contains("instagram.com/"))) {
                 mFabProgressCircle.show();
-                Toasty.info(MainActivity.this ,getString(R.string.please_wait),0).show();
-                new InstaData(this, OPENED_FROM_OUTSIDE).execute();
-            }
-            else{
-                ClipboardManager mClipboardService = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                Toasty.custom(MainActivity.this, getString(R.string.please_wait),ContextCompat.getDrawable(this,R.drawable.wait),Toasty.LENGTH_SHORT,true).show();
+                new InstaData(this, instaJob(OPENED_FROM_OUTSIDE)).execute();
+            } else {
+                ClipboardManager mClipboardService = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 if (mClipboardService != null) {
                     ClipData link = mClipboardService.getPrimaryClip();
                     ClipData.Item item = link.getItemAt(0);
                     String mClipboardUrl = item.getText().toString();
                     Log.d(TAG, "ClipboardData: " + mClipboardUrl);
 
-                    if (mClipboardUrl.isEmpty()){
+                    if (mClipboardUrl.isEmpty()) {
                         showAlert(R.string.no_copy_title, R.string.no_copy, R.color.Warning);
-                    }
-                    else if (mClipboardUrl.contains("www.instagram.com/tv/") || mClipboardUrl.contains("www.instagram.com/p/")){
+                    } else if (mClipboardUrl.contains("instagram.com/")) {
                         mFabProgressCircle.show();
-                        Toasty.info(MainActivity.this ,getString(R.string.please_wait),0).show();
-                        new InstaData(this, mClipboardUrl).execute();
-                    }
-                    else {
+                        Toasty.custom(MainActivity.this, getString(R.string.please_wait),ContextCompat.getDrawable(this,R.drawable.wait),Toasty.LENGTH_SHORT,true).show();
+                        new InstaData(this, instaJob(mClipboardUrl)).execute();
+                    } else {
                         showAlert(R.string.correct_url_title, R.string.correct_url, R.color.Warning);
                     }
-                }
-                else {
+                } else {
                     showAlert(R.string.clipboard_error_title, R.string.clipboard_error, R.color.ERROR);
                 }
             }
 
-        } catch (Exception ex){
+        } catch (Exception ex) {
             showAlert(R.string.clipboard_error_title, R.string.clipboard_error, R.color.ERROR);
             ex.printStackTrace();
         }
     }
 
-    public void showAlert(int title, int message, int color){
+    private static String instaJob(String x) {
+        if (!x.contains("https://www.instagram.com/explore") &&
+                !x.contains("https://www.instagram.com/accounts/activity") &&
+                !x.contains("https://www.instagram.com/direct/inbox") &&
+                !x.contains("https://www.instagram.com/direct/new") &&
+                !x.contains("https://www.instagram.com/explore/search")) {
+            if (x.contains("?")) {
+                x = x.substring(0, x.lastIndexOf("?"));
+                x = x + "?__a=1";
+            } else {
+                if (!x.endsWith("/")) {
+                    x = x + "/?__a=1";
+                } else {
+                    x = x + "?__a=1";
+                }
+            }
+        }
+        return x;
+    }
+
+    public void showAlert(int title, int message, int color) {
         Alerter.create(this)
                 .setTitle(getString(title))
                 .setText(getString(message))

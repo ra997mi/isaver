@@ -12,7 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
+
+import androidx.core.app.NotificationCompat;
 
 import com.remmoo997.igtvsaver.R;
 import com.remmoo997.igtvsaver.activities.MainActivity;
@@ -25,11 +26,10 @@ public class ClipboardService extends Service implements OnPrimaryClipChangedLis
     public void onCreate() {
         try {
             mClipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-            if (mClipboardManager != null){
+            if (mClipboardManager != null) {
                 mClipboardManager.addPrimaryClipChangedListener(this);
             }
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -53,7 +53,7 @@ public class ClipboardService extends Service implements OnPrimaryClipChangedLis
     private void showNotification() {
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"mIGTVSaver_ID1")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "mIGTVSaver_ID1")
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.link_download)))
                 .setContentIntent(PendingIntent.getActivity(this, 0, getNotificationIntent(), PendingIntent.FLAG_UPDATE_CURRENT))
                 .setSmallIcon(R.drawable.ic_notify)
@@ -82,12 +82,12 @@ public class ClipboardService extends Service implements OnPrimaryClipChangedLis
                 if (link != null) {
                     ClipData.Item item = link.getItemAt(0);
                     String mClipboardUrl = item.getText().toString();
-                    if (mClipboardUrl.contains("www.instagram.com/tv/") || mClipboardUrl.contains("www.instagram.com/p/")) {
+                    if (mClipboardUrl.contains("instagram.com/")) {
                         showNotification();
                     }
                 }
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -96,6 +96,7 @@ public class ClipboardService extends Service implements OnPrimaryClipChangedLis
     public void onPrimaryClipChanged() {
         try {
             clipboardCheck();
-        } catch (Exception ignore){}
+        } catch (Exception ignore) {
+        }
     }
 }

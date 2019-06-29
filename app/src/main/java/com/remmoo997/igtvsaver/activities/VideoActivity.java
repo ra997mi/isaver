@@ -12,8 +12,10 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -30,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
 
-public class VideoActivity extends AppCompatActivity implements View.OnClickListener{
+public class VideoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private VideoView mVideoView;
     private int position = 0;
@@ -93,10 +95,12 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -106,27 +110,26 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void getVideo(String mUrl, String mName){
+    private void getVideo(String mUrl, String mName) {
 
         if (mUrl != null && mName != null) {
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mUrl));
             request.allowScanningByMediaScanner();
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            request.setDestinationInExternalPublicDir("IGTVSaver",mName);
+            request.setDestinationInExternalPublicDir("IGTVSaver", mName);
             DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
             if (dm != null) {
                 dm.enqueue(request);
             }
             Toasty.success(this, getString(R.string.downloading), 1).show();
-        }
-        else
+        } else
             Toasty.error(this, getString(R.string.error), 0).show();
 
     }
 
     private boolean isPermissionsGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
                 RequestStoragePermission();
@@ -145,18 +148,19 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private final Runnable Update = new Runnable() {
         @Override
         public void run() {
-            if(mSeekbar != null) {
+            if (mSeekbar != null) {
                 mSeekbar.setProgress(mVideoView.getCurrentPosition());
             }
-            if(mVideoView.isPlaying()) {
-                if (mSpinKitView.getVisibility()== View.VISIBLE){
+            if (mVideoView.isPlaying()) {
+                if (mSpinKitView.getVisibility() == View.VISIBLE) {
                     mSpinKitView.setVisibility(View.GONE);
                 }
                 mSeekbar.postDelayed(Update, 1000);
                 mElapsedTime.setText(Time(mVideoView.getCurrentPosition()));
                 mRemainingTime.setText(Time(mVideoView.getDuration() - mVideoView.getCurrentPosition()));
             }
-        }};
+        }
+    };
 
     private String Time(long ms) {
         return String.format(Locale.getDefault(), "%d:%d", TimeUnit.MILLISECONDS.toMinutes(ms), TimeUnit.MILLISECONDS.toSeconds(ms) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((ms))));
@@ -179,7 +183,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.pauseplay_btn:
                 if (mVideoView.isPlaying()) {
                     mVideoView.pause();
@@ -204,7 +208,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
             case R.id.share_btn:
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.app_name));
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
                 shareIntent.putExtra(Intent.EXTRA_TEXT, mVideoLink);
                 startActivity(Intent.createChooser(shareIntent, getString(R.string.share_link)));
                 break;

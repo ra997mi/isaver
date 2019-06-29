@@ -1,7 +1,7 @@
 package com.remmoo997.igtvsaver.utils;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Calendar;
 
@@ -13,17 +13,17 @@ public final class Utility {
             String[] separated = mUrl.split("/");
             String mVideoName = separated[separated.length - 1];
 
-            if(mVideoName.contains(".mp4"))
+            if (mVideoName.contains(".mp4"))
                 mVideoName = img + mVideoName.substring(0, 8) + ".mp4";
 
-            else if(mVideoName.contains(".m3u8"))
+            else if (mVideoName.contains(".m3u8"))
                 mVideoName = img + mVideoName.substring(0, 8) + ".m3u8";
 
             else
                 mVideoName = img + mVideoName.substring(0, 8) + ".mp4";
 
             return mVideoName;
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return "IGTVSaver-Video.mp4";
         }
@@ -35,10 +35,10 @@ public final class Utility {
             String[] separated = mUrl.split("/");
             String mPictureName = separated[separated.length - 1];
 
-            if(mPictureName.contains(".jpg"))
+            if (mPictureName.contains(".jpg"))
                 mPictureName = img + mPictureName.substring(0, 8) + ".jpg";
 
-            else if(mPictureName.contains(".gif"))
+            else if (mPictureName.contains(".gif"))
                 mPictureName = img + mPictureName.substring(0, 8) + ".gif";
 
             else if (mPictureName.contains(".png"))
@@ -48,7 +48,7 @@ public final class Utility {
                 mPictureName = img + mPictureName.substring(0, 8) + ".jpg";
 
             return mPictureName;
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return "IGTVSaver-Picture.jpg";
         }
@@ -63,7 +63,7 @@ public final class Utility {
         }
     }
 
-    public static int getYear(){
+    public static int getYear() {
         return Calendar.getInstance().get(Calendar.YEAR);
     }
 }

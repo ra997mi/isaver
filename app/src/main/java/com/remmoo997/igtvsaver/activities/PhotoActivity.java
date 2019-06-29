@@ -13,9 +13,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +40,7 @@ import com.remmoo997.igtvsaver.R;
 
 import es.dmoral.toasty.Toasty;
 
-public class PhotoActivity extends AppCompatActivity{
+public class PhotoActivity extends AppCompatActivity {
 
     private PhotoView mImageView;
     private String mPhotoUrl, mPhotoName, mPhotoLink;
@@ -51,7 +53,7 @@ public class PhotoActivity extends AppCompatActivity{
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if(prefs.getBoolean("RotationLock",true))
+        if (prefs.getBoolean("RotationLock", true))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -67,7 +69,7 @@ public class PhotoActivity extends AppCompatActivity{
         mImageView = findViewById(R.id.container);
         Toolbar mToolbar = findViewById(R.id.toolbar_ph);
         setSupportActionBar(mToolbar);
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
@@ -75,7 +77,7 @@ public class PhotoActivity extends AppCompatActivity{
         TextView mPhotoTitle = findViewById(R.id.photo_title);
         mPhotoUrl = getIntent().getStringExtra("PictureUrl");
         mPhotoName = getIntent().getStringExtra("PictureName");
-        mPhotoLink =  getIntent().getStringExtra("PictureLink");
+        mPhotoLink = getIntent().getStringExtra("PictureLink");
         mPhotoTitle.setText(getIntent().getStringExtra("PictureTitle"));
 
         LoadPhoto();
@@ -99,7 +101,7 @@ public class PhotoActivity extends AppCompatActivity{
                     })
                     .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
                     .into(mImageView);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             super.onBackPressed();
         }
@@ -113,19 +115,19 @@ public class PhotoActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.download_image:
-               if (isPermissionsGranted()) {
-                   if (mInterstitialAd != null && mInterstitialAd.isLoaded())
-                       mInterstitialAd.show();
-                   getPhoto();
-               }
-               break;
+                if (isPermissionsGranted()) {
+                    if (mInterstitialAd != null && mInterstitialAd.isLoaded())
+                        mInterstitialAd.show();
+                    getPhoto();
+                }
+                break;
 
             case R.id.share_image:
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.app_name));
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
                 shareIntent.putExtra(Intent.EXTRA_TEXT, mPhotoLink);
                 startActivity(Intent.createChooser(shareIntent, getString(R.string.share_link)));
                 break;
@@ -138,9 +140,9 @@ public class PhotoActivity extends AppCompatActivity{
                         clipboard.setPrimaryClip(clip);
                         Toasty.success(this, getString(R.string.copied_to_clipboard), 0).show();
                     }
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace();
-                    Toasty.error(PhotoActivity.this, getString(R.string.cant_copy),0).show();
+                    Toasty.error(PhotoActivity.this, getString(R.string.cant_copy), 0).show();
                 }
                 break;
             case android.R.id.home:
@@ -153,7 +155,7 @@ public class PhotoActivity extends AppCompatActivity{
 
     private boolean isPermissionsGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
                 RequestStoragePermission();
@@ -169,8 +171,8 @@ public class PhotoActivity extends AppCompatActivity{
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
     }
 
-    private void getPhoto(){
-        try{
+    private void getPhoto() {
+        try {
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mPhotoUrl));
             request.allowScanningByMediaScanner();
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
@@ -180,7 +182,7 @@ public class PhotoActivity extends AppCompatActivity{
                 dm.enqueue(request);
             }
             Toasty.success(this, getString(R.string.downloading), 0).show();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             Toasty.error(this, getString(R.string.error), 0).show();
         }

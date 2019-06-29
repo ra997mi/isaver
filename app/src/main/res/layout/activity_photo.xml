@@ -23,19 +23,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay"
             android:background="#26000000">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_ph"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 android:theme="@style/AppTheme.AppBarOverlay"/>
 
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -53,7 +53,8 @@
             android:textColor="@android:color/white"
             android:shadowColor="@android:color/black"
             android:shadowRadius="4"
-            android:maxLines="1"/>
+            android:gravity="center"
+            android:maxLines="3"/>
 
     </RelativeLayout>
 </RelativeLayout>

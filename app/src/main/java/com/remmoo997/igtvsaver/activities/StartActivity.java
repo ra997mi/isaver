@@ -6,7 +6,9 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -16,7 +18,7 @@ import com.remmoo997.igtvsaver.services.Connectivity;
 import com.remmoo997.igtvsaver.utils.Utility;
 
 
-public class StartActivity  extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity {
 
     private boolean isTheirConnection;
 
@@ -40,10 +42,9 @@ public class StartActivity  extends AppCompatActivity {
     private void showScreen() {
         new Handler().postDelayed(() -> {
 
-            if (!isTheirConnection){
+            if (!isTheirConnection) {
                 startIntent(new Intent(this, ConnectionActivity.class));
-            }
-            else {
+            } else {
                 startIntent(new Intent(this, MainActivity.class));
             }
         }, (long) 800);
@@ -53,7 +54,7 @@ public class StartActivity  extends AppCompatActivity {
         TextView version = findViewById(R.id.versionName);
         version.setText(getString(R.string.version, Utility.getAppVersion(StartActivity.this)));
         TextView copyright = findViewById(R.id.copyrightText);
-        copyright.setText(getString(R.string.proximadev , Utility.getYear()));
+        copyright.setText(getString(R.string.proximadev, Utility.getYear()));
     }
 
     @TargetApi(19)
@@ -65,7 +66,7 @@ public class StartActivity  extends AppCompatActivity {
         win.setAttributes(winParams);
     }
 
-    private void startIntent(Intent intent){
+    private void startIntent(Intent intent) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
