@@ -81,9 +81,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             });
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ignore) {}
     }
 
     @Override

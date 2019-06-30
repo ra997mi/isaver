@@ -9,6 +9,8 @@
     <string name="connection">Internet Connection</string>
     <string name="correct_url">Please copy a correct instagram Link</string>
     <string name="correct_url_title">Not Instagram Link?</string>
+    <string name="profile_link">Not a Profile Link?</string>
+    <string name="profile_link_content">Are you sure you copied profile link?</string>
     <string name="error">Failed to download</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="share_link">Share Link</string>
@@ -18,12 +20,13 @@
     <string name="ad_unit2" translatable="false">ca-app-pub-3836303927954880/1847266500</string>
     <string name="ad_unit3" translatable="false">ca-app-pub-3836303927954880/1590540199</string>
     <string name="guide">Guide</string>
-    <string name="guide_description">Copy  link from instagram, then click on this button, to watch and download.</string>
+    <string name="guide_description">Copy link from instagram, then click on this button, to watch and download.</string>
     <string name="no_copy">You have\'t copy any link yet!</string>
     <string name="no_copy_title">No Link!?</string>
     <string name="clipboard_error">Error, can\'t read clipboard data!, copy link first, restart the app and try again!</string>
-    <string name="hello">Hello</string>
-    <string name="just">Just copy an  link from Instagram app and click on the play button bellow</string>
+    <string name="hello">Hello There!</string>
+    <string name="just">Just copy "<b>"a link from Instagram"</b>" and "<b>"click"</b>" on the play button</string>
+    <string name="just_stories">For instagram stories just copy a <b>profile link</b> from Instagram and then <b>Keep Holding!!</b> on the play button</string>
     <string name="fast_link">Fast Link Service</string>
     <string name="auto_link">*Auto check instagram links when you are not using the app</string>
     <string name="link_founded">Instagram Link</string>
@@ -35,4 +38,6 @@
     <string name="copy_link">Copy Link</string>
     <string name="download">Download</string>
     <string name="full_size">Click on The Picture, Video to open it in fullsize</string>
+    <string name="no_stories_title">No Stories</string>
+    <string name="no_stories">Can\'t find any stories, is this a private account?</string>
 </resources>

@@ -5,7 +5,6 @@ import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -14,7 +13,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
 
@@ -25,16 +23,16 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.remmoo997.igtvsaver.R;
 import com.remmoo997.igtvsaver.services.ClipboardService;
 import com.remmoo997.igtvsaver.utils.InstaData;
+import com.remmoo997.igtvsaver.utils.InstaStories;
 import com.tapadoo.alerter.Alerter;
 
 import es.dmoral.toasty.Toasty;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 import uk.co.samuelwall.materialtaptargetprompt.extras.backgrounds.FullscreenPromptBackground;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
     private static String OPENED_FROM_OUTSIDE = null;
-    private static final String TAG = "MainActivity";
     private InterstitialAd mInterstitialAd;
     private Intent mClipboardIntent;
     public FABProgressCircle mFabProgressCircle;
@@ -70,12 +68,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 stopService(mClipboardIntent);
             }
-            Log.d(TAG, "Switch Value: " + b);
             mSharedPreferences.edit().putBoolean("ServiceOn", b).apply();
         });
 
         FloatingActionButton mFabOpen = findViewById(R.id.getFab);
         mFabOpen.setOnClickListener(this);
+        mFabOpen.setOnLongClickListener(this);
 
         mFabProgressCircle = findViewById(R.id.fabProgressCircle);
 
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .setTarget(mFabOpen)
                     .setBackButtonDismissEnabled(false)
                     .setPrimaryText(getString(R.string.guide))
-                    .setBackgroundColour(ContextCompat.getColor(this,R.color.semiDark))
+                    .setBackgroundColour(ContextCompat.getColor(this, R.color.semiDark))
                     .setPromptBackground(new FullscreenPromptBackground())
                     .setSecondaryText(getString(R.string.guide_description))
                     .show();
@@ -110,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
             if (OPENED_FROM_OUTSIDE != null && (OPENED_FROM_OUTSIDE.contains("instagram.com/"))) {
                 mFabProgressCircle.show();
-                Toasty.custom(MainActivity.this, getString(R.string.please_wait),ContextCompat.getDrawable(this,R.drawable.wait),Toasty.LENGTH_SHORT,true).show();
+                Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
                 new InstaData(this, instaJob(OPENED_FROM_OUTSIDE)).execute();
             } else {
                 ClipboardManager mClipboardService = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
@@ -118,13 +116,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ClipData link = mClipboardService.getPrimaryClip();
                     ClipData.Item item = link.getItemAt(0);
                     String mClipboardUrl = item.getText().toString();
-                    Log.d(TAG, "ClipboardData: " + mClipboardUrl);
 
                     if (mClipboardUrl.isEmpty()) {
                         showAlert(R.string.no_copy_title, R.string.no_copy, R.color.Warning);
                     } else if (mClipboardUrl.contains("instagram.com/")) {
                         mFabProgressCircle.show();
-                        Toasty.custom(MainActivity.this, getString(R.string.please_wait),ContextCompat.getDrawable(this,R.drawable.wait),Toasty.LENGTH_SHORT,true).show();
+                        Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
                         new InstaData(this, instaJob(mClipboardUrl)).execute();
                     } else {
                         showAlert(R.string.correct_url_title, R.string.correct_url, R.color.Warning);
@@ -167,5 +164,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setIcon(R.drawable.ic_error)
                 .setBackgroundColorRes(color)
                 .show();
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        try {
+            if (OPENED_FROM_OUTSIDE != null && !OPENED_FROM_OUTSIDE.contains("instagram.com/p/") && !OPENED_FROM_OUTSIDE.contains("instagram.com/tv/")) {
+                mFabProgressCircle.show();
+                Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
+                new InstaStories(this, instaJob(OPENED_FROM_OUTSIDE)).execute();
+            } else {
+                ClipboardManager mClipboardService = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                if (mClipboardService != null) {
+                    ClipData link = mClipboardService.getPrimaryClip();
+                    ClipData.Item item = link.getItemAt(0);
+                    String mClipboardUrl = item.getText().toString();
+
+                    if (mClipboardUrl.isEmpty()) {
+                        showAlert(R.string.no_copy_title, R.string.no_copy, R.color.Warning);
+                    } else if (!mClipboardUrl.contains("instagram.com/p/") && !mClipboardUrl.contains("instagram.com/tv/")) {
+                        mFabProgressCircle.show();
+                        Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
+                        new InstaStories(this, mClipboardUrl).execute();
+                    } else {
+                        showAlert(R.string.profile_link, R.string.profile_link_content, R.color.Warning);
+                    }
+                } else {
+                    showAlert(R.string.clipboard_error_title, R.string.clipboard_error, R.color.ERROR);
+                }
+            }
+
+        } catch (Exception ex) {
+            showAlert(R.string.clipboard_error_title, R.string.clipboard_error, R.color.ERROR);
+        }
+        return true;
     }
 }

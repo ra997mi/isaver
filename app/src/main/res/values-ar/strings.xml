@@ -31,4 +31,9 @@
     <string name="correct_url">الرجاء قم بنسخ الرابط الصحيح الخاص بالانستغرام</string>
     <string name="correct_url_title">ليس رابط انستغرام صحيح؟</string>
     <string name="full_size">قم بلضغط على الصورة او الفيديو للعرض بلحجم الكامل</string>
+    <string name="just_stories">"لعرض وتحميل الستوريات قم بنسخ الملف الشخصي ومن ثم قم بلضغط مع الاستمرار على زر العرض "</string>
+    <string name="profile_link_content">هل انت متاكد من نسخ الملف الشخصي؟</string>
+    <string name="profile_link">ليس ملف شخصي؟</string>
+    <string name="no_stories">لم يتم العثور على ستوريات هل هذا الحساب مغلق؟</string>
+    <string name="no_stories_title">لا توجد ستوريات</string>
 </resources>

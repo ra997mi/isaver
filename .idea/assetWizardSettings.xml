@@ -33,9 +33,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="wait" />
-                            <entry key="sourceFile" value="C:\Users\RS" />
+                            <entry key="outputName" value="ic_stories" />
+                            <entry key="sourceFile" value="C:\Users\RS\Downloads\stories.svg" />
                           </map>
                         </option>
                       </PersistentState>

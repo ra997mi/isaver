@@ -2,8 +2,8 @@ package com.remmoo997.igtvsaver.utils;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+
 import androidx.annotation.NonNull;
-import android.util.Log;
 
 import com.remmoo997.igtvsaver.R;
 import com.remmoo997.igtvsaver.activities.GridActivity;
@@ -25,7 +25,6 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
     private boolean isVideo = false;
     private boolean isPicture = false;
     private boolean isMultiple = false;
-    private static final String TAG = "InstaData";
     private final WeakReference<MainActivity> mActivityRef;
     private final String mUrl;
 
@@ -87,11 +86,8 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
             }
 
         } catch (Error ex) {
-            ex.printStackTrace();
-            Log.e(TAG, "doInBackground: mClipboardUrl:" + mUrl, ex);
             return null;
         } catch (Exception ex) {
-            Log.e(TAG, "doInBackground: mClipboardUrl:" + mUrl, ex);
             return null;
         }
         return null;
@@ -148,11 +144,8 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
             } else {
                 activity.showAlert(R.string.no_video_title, R.string.no_video, R.color.ERROR);
             }
-        } catch (Error ex) {
-            Log.e(TAG, "onPostExecute: mClipboardUrl:" + mUrl + " mDownloadingUrl: " + data, ex);
-
-        } catch (Exception ex) {
-            Log.e(TAG, "onPostExecute: mClipboardUrl:" + mUrl + " mDownloadingUrl: " + data, ex);
+        } catch (Error ignore) {
+        } catch (Exception ignore) {
         }
     }
 }
