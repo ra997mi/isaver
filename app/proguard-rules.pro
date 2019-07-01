@@ -29,16 +29,3 @@
 -keep public class org.jsoup.** {
     public *;
 }
-
--dontwarn com.google.android.material.**
--keep class com.google.android.material.** { *; }
-
--dontwarn androidx.**
--keep class androidx.** { *; }
--keep interface androidx.** { *; }
-
--dontwarn android.support.v4.**
--keep class android.support.v4.** { *; }
-
--dontwarn android.support.v7.**
--keep class android.support.v7.** { *; }
