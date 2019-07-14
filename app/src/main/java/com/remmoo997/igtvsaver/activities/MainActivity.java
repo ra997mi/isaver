@@ -52,13 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mInterstitialAd = new InterstitialAd(MainActivity.this);
         mInterstitialAd.setAdUnitId(getString(R.string.ad_unit1));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                mInterstitialAd.show();
-            }
-        });
 
         Switch mSwitch = findViewById(R.id.fastlink);
         mSwitch.setChecked(mSharedPreferences.getBoolean("ServiceOn", false));
@@ -106,28 +99,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         try {
-            if (OPENED_FROM_OUTSIDE != null && (OPENED_FROM_OUTSIDE.contains("instagram.com/"))) {
-                mFabProgressCircle.show();
-                Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
-                new InstaData(this, instaJob(OPENED_FROM_OUTSIDE)).execute();
+            if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
             } else {
-                ClipboardManager mClipboardService = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                if (mClipboardService != null) {
-                    ClipData link = mClipboardService.getPrimaryClip();
-                    ClipData.Item item = link.getItemAt(0);
-                    String mClipboardUrl = item.getText().toString();
-
-                    if (mClipboardUrl.isEmpty()) {
-                        showAlert(R.string.no_copy_title, R.string.no_copy, R.color.Warning);
-                    } else if (mClipboardUrl.contains("instagram.com/")) {
-                        mFabProgressCircle.show();
-                        Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
-                        new InstaData(this, instaJob(mClipboardUrl)).execute();
-                    } else {
-                        showAlert(R.string.correct_url_title, R.string.correct_url, R.color.Warning);
-                    }
+                if (OPENED_FROM_OUTSIDE != null && (OPENED_FROM_OUTSIDE.contains("instagram.com/"))) {
+                    mFabProgressCircle.show();
+                    Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
+                    new InstaData(this, instaJob(OPENED_FROM_OUTSIDE)).execute();
                 } else {
-                    showAlert(R.string.clipboard_error_title, R.string.clipboard_error, R.color.ERROR);
+                    ClipboardManager mClipboardService = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    if (mClipboardService != null) {
+                        ClipData link = mClipboardService.getPrimaryClip();
+                        ClipData.Item item = link.getItemAt(0);
+                        String mClipboardUrl = item.getText().toString();
+
+                        if (mClipboardUrl.isEmpty()) {
+                            showAlert(R.string.no_copy_title, R.string.no_copy, R.color.Warning);
+                        } else if (mClipboardUrl.contains("instagram.com/")) {
+                            mFabProgressCircle.show();
+                            Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
+                            new InstaData(this, instaJob(mClipboardUrl)).execute();
+                        } else {
+                            showAlert(R.string.correct_url_title, R.string.correct_url, R.color.Warning);
+                        }
+                    } else {
+                        showAlert(R.string.clipboard_error_title, R.string.clipboard_error, R.color.ERROR);
+                    }
                 }
             }
 
@@ -169,31 +166,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onLongClick(View v) {
         try {
-            if (OPENED_FROM_OUTSIDE != null && !OPENED_FROM_OUTSIDE.contains("instagram.com/p/") && !OPENED_FROM_OUTSIDE.contains("instagram.com/tv/")) {
-                mFabProgressCircle.show();
-                Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
-                new InstaStories(this, instaJob(OPENED_FROM_OUTSIDE)).execute();
+            if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
             } else {
-                ClipboardManager mClipboardService = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                if (mClipboardService != null) {
-                    ClipData link = mClipboardService.getPrimaryClip();
-                    ClipData.Item item = link.getItemAt(0);
-                    String mClipboardUrl = item.getText().toString();
-
-                    if (mClipboardUrl.isEmpty()) {
-                        showAlert(R.string.no_copy_title, R.string.no_copy, R.color.Warning);
-                    } else if (!mClipboardUrl.contains("instagram.com/p/") && !mClipboardUrl.contains("instagram.com/tv/")) {
-                        mFabProgressCircle.show();
-                        Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
-                        new InstaStories(this, mClipboardUrl).execute();
-                    } else {
-                        showAlert(R.string.profile_link, R.string.profile_link_content, R.color.Warning);
-                    }
+                if (OPENED_FROM_OUTSIDE != null && !OPENED_FROM_OUTSIDE.contains("instagram.com/p/") && !OPENED_FROM_OUTSIDE.contains("instagram.com/tv/")) {
+                    mFabProgressCircle.show();
+                    Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
+                    new InstaStories(this, instaJob(OPENED_FROM_OUTSIDE)).execute();
                 } else {
-                    showAlert(R.string.clipboard_error_title, R.string.clipboard_error, R.color.ERROR);
+                    ClipboardManager mClipboardService = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    if (mClipboardService != null) {
+                        ClipData link = mClipboardService.getPrimaryClip();
+                        ClipData.Item item = link.getItemAt(0);
+                        String mClipboardUrl = item.getText().toString();
+
+                        if (mClipboardUrl.isEmpty()) {
+                            showAlert(R.string.no_copy_title, R.string.no_copy, R.color.Warning);
+                        } else if (!mClipboardUrl.contains("instagram.com/p/") && !mClipboardUrl.contains("instagram.com/tv/")) {
+                            mFabProgressCircle.show();
+                            Toasty.custom(MainActivity.this, getString(R.string.please_wait), ContextCompat.getDrawable(this, R.drawable.wait), Toasty.LENGTH_SHORT, true).show();
+                            new InstaStories(this, mClipboardUrl).execute();
+                        } else {
+                            showAlert(R.string.profile_link, R.string.profile_link_content, R.color.Warning);
+                        }
+                    } else {
+                        showAlert(R.string.clipboard_error_title, R.string.clipboard_error, R.color.ERROR);
+                    }
                 }
             }
-
         } catch (Exception ex) {
             showAlert(R.string.clipboard_error_title, R.string.clipboard_error, R.color.ERROR);
         }

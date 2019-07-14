@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">IGTV Saver</string>
+    <string name="app_name" translatable="false">ISaver</string>
     <string name="proximadev" translatable="false">\u00A9 ProximaDev Team %1d</string>
     <string name="version">Version: %1s</string>
     <string name="welcome_text">Welcome to</string>
