@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 
 import java.lang.ref.WeakReference;
 
@@ -36,16 +37,20 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
     @Override
     protected Schema doInBackground(Void... voids) {
         JSONObject media = null;
-        String jsonData;
-        String userId = null;
+        String userName = null;
+        int followers = 0;
+        int following = 0;
         try {
-            jsonData = Jsoup.connect(mUrl).ignoreContentType(true).execute().body();
+            String jsonData = Jsoup.connect(mUrl).ignoreContentType(true).execute().body();
+            JSONObject jo = new JSONObject(jsonData).getJSONObject("graphql");
             try {
                 isProfile = false;
-                media = new JSONObject(jsonData).getJSONObject("graphql").getJSONObject("shortcode_media");
+                media = jo.getJSONObject("shortcode_media");
             } catch (JSONException jsonException) {
                 isProfile = true;
-                userId = new JSONObject(jsonData).getJSONObject("graphql").getJSONObject("user").getString("id");
+                userName = jo.getJSONObject("user").getString("username");
+                followers = jo.getJSONObject("user").getJSONObject("edge_followed_by").getInt("count");
+                following = jo.getJSONObject("user").getJSONObject("edge_follow").getInt("count");
             }
 
             if (!isProfile && media != null) {
@@ -74,15 +79,11 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
                     }
                     return multi;
                 }
-            } else if (isProfile && userId != null) {
-                String api = "https://i.instagram.com/api/v1/users/" + userId + "/info/";
-                jsonData = Jsoup.connect(api).ignoreContentType(true).execute().body();
-                JSONObject data = new JSONObject(jsonData).getJSONObject("user");
-                String Profile_url = data.getJSONObject("hd_profile_pic_url_info").getString("url");
-                String username = data.getString("username");
-                int followers = data.getInt("follower_count");
-                int following = data.getInt("following_count");
-                return new Schema(Profile_url, username, followers, following);
+            } else if (isProfile && userName != null) {
+                String api = "https://www.instadp.com/profile/" + userName;
+                Elements elements = Jsoup.connect(api).get().select("section[class=result-content] > div[class=instadp] > a[class=instadp-post]");
+                String Profile_url = elements.select("img").attr("src");
+                return new Schema(Profile_url, userName, followers, following);
             }
 
         } catch (Error ex) {
@@ -115,7 +116,7 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
                 } else if (isPicture) {
                     Intent i = new Intent(activity, PhotoActivity.class);
                     i.putExtra("PictureUrl", data.getSINGLE_POST_PICTURE_URL());
-                    i.putExtra("PictureName", Utility.getPictureName(data.getUSERNAME_PICTURE_URL()));
+                    i.putExtra("PictureName", Utility.getPictureName(data.getSINGLE_POST_PICTURE_URL()));
                     i.putExtra("PictureLink", mUrl);
                     if (mImageTitle != null && !mImageTitle.isEmpty())
                         i.putExtra("PictureTitle", mImageTitle.trim());

@@ -16,9 +16,6 @@ public final class Utility {
             if (mVideoName.contains(".mp4"))
                 mVideoName = img + mVideoName.substring(0, 8) + ".mp4";
 
-            else if (mVideoName.contains(".m3u8"))
-                mVideoName = img + mVideoName.substring(0, 8) + ".m3u8";
-
             else
                 mVideoName = img + mVideoName.substring(0, 8) + ".mp4";
 
@@ -37,9 +34,6 @@ public final class Utility {
 
             if (mPictureName.contains(".jpg"))
                 mPictureName = img + mPictureName.substring(0, 8) + ".jpg";
-
-            else if (mPictureName.contains(".gif"))
-                mPictureName = img + mPictureName.substring(0, 8) + ".gif";
 
             else if (mPictureName.contains(".png"))
                 mPictureName = img + mPictureName.substring(0, 8) + ".png";
