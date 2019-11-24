@@ -80,7 +80,7 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
                     return multi;
                 }
             } else if (isProfile && userName != null) {
-                String api = "https://www.instadp.com/profile/" + userName;
+                String api = "https://www.instadp.com/fullsize/" + userName;
                 Elements elements = Jsoup.connect(api).get().select("section[class=result-content] > div[class=instadp] > a[class=instadp-post]");
                 String Profile_url = elements.select("img").attr("src");
                 return new Schema(Profile_url, userName, followers, following);
