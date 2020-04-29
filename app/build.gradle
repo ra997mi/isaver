@@ -9,10 +9,10 @@ android {
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.remmoo997.igtvsaver"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
-        versionCode 15
-        versionName "1.4.5"
+        versionCode 16
+        versionName "1.4.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -32,16 +32,16 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
-    implementation 'com.google.android.gms:play-services-ads:18.3.0'
+    implementation 'com.google.android.gms:play-services-ads:19.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.browser:browser:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.browser:browser:1.2.0'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'uk.co.samuelwall:material-tap-target-prompt:3.0.0'
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     implementation 'com.tapadoo.android:alerter:2.0.6'
-    implementation 'org.jsoup:jsoup:1.12.1'
+    implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
