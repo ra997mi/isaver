@@ -34,7 +34,7 @@ public class InstaStories extends AsyncTask<Void, Void, ArrayList<String>> {
             username = extractUserName(Profile_Url);
             String API = "https://www.instadp.com/stories/#Replace_Me";
             String jet = API.replace("#Replace_Me", username);
-            Elements elements = Jsoup.connect(jet).userAgent("Mozilla").get().select("ul[class=stories-list] > li[class=story] > div[class=story-post]");
+            Elements elements = Jsoup.connect(jet).userAgent("Mozilla/5.0").get().select("ul[class=stories-list] > li[class=story] > div[class=story-post]");
             for (Element element : elements) {
                 String img = element.select("img").attr("src");
                 if (!img.equals(""))

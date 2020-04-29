@@ -81,8 +81,11 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
                 }
             } else if (isProfile && userName != null) {
                 String api = "https://www.instadp.com/fullsize/" + userName;
-                Elements elements = Jsoup.connect(api).userAgent("Mozilla").get().select("section[class=result-content] > div[class=instadp] > a[class=instadp-post]");
+                Elements elements = Jsoup.connect(api).userAgent("Mozilla/5.0").followRedirects(true).get().select("section[class=result-content] > div[class=instadp] > a[class=instadp-post]");
                 String Profile_url = elements.select("img").attr("src");
+                if(Profile_url == null || Profile_url.equals("")){
+                    Profile_url = jo.getJSONObject("user").getString("profile_pic_url_hd");
+                }
                 return new Schema(Profile_url, userName, followers, following);
             }
 
