@@ -70,6 +70,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     img.putExtra("VideoUrl", data);
                     img.putExtra("VideoName", Utility.getVideoName(data));
                     img.putExtra("VideoLink", url);
+                    img.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(img);
                 } else {
                     Intent img = new Intent(context, PhotoActivity.class);
@@ -77,6 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     img.putExtra("PictureName", Utility.getPictureName(data));
                     img.putExtra("PictureLink", url);
                     img.putExtra("PictureTitle", title);
+                    img.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(img);
                 }
             });
