@@ -81,7 +81,7 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
                 }
             } else if (isProfile && userName != null) {
                 String api = "https://www.instadp.com/fullsize/" + userName;
-                Elements elements = Jsoup.connect(api).userAgent("Mozilla/5.0").followRedirects(true).get().select("section[class=result-content] > div[class=instadp] > a[class=instadp-post]");
+                Elements elements = Jsoup.connect(api).userAgent("Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Mobile Safari/537.36").followRedirects(true).get().select("section[class=result-content] > div[class=instadp] > a[class=instadp-post]");
                 String Profile_url = elements.select("img").attr("src");
                 if(Profile_url == null || Profile_url.equals("")){
                     Profile_url = jo.getJSONObject("user").getString("profile_pic_url_hd");
@@ -114,6 +114,7 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
                     i.putExtra("PictureName", Utility.getPictureName(data.getUSERNAME_PICTURE_URL()));
                     i.putExtra("PictureLink", mUrl);
                     i.putExtra("PictureTitle", "(@" + data.getUSERNAME() + ") Followers: " + data.getFOLLOWERS() + ", Following: " + data.getFOLLOWING());
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(i);
                     activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 } else if (isPicture) {
@@ -125,6 +126,7 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
                         i.putExtra("PictureTitle", mImageTitle.trim());
                     else
                         i.putExtra("PictureTitle", "IGTVSaver");
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(i);
                     activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 } else if (isVideo) {
@@ -132,6 +134,7 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
                     i.putExtra("VideoUrl", data.getSINGLE_POST_VIDEO_URL());
                     i.putExtra("VideoName", Utility.getVideoName(data.getSINGLE_POST_VIDEO_URL()));
                     i.putExtra("VideoLink", mUrl);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(i);
                     activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 } else if (isMultiple) {
@@ -142,6 +145,7 @@ public class InstaData extends AsyncTask<Void, Void, Schema> {
                         i.putExtra("title", mImageTitle.trim());
                     else
                         i.putExtra("title", "IGTVSaver");
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(i);
                     activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
