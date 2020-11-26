@@ -16,6 +16,7 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -116,7 +117,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mUrl));
             request.allowScanningByMediaScanner();
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            request.setDestinationInExternalPublicDir("IGTVSaver", mName);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MOVIES, mName);
             DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
             if (dm != null) {
                 dm.enqueue(request);
