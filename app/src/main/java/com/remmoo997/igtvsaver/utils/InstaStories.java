@@ -34,7 +34,7 @@ public class InstaStories extends AsyncTask<Void, Void, ArrayList<String>> {
             username = extractUserName(Profile_Url);
             String API = "https://www.instadp.com/stories/#Replace_Me";
             String jet = API.replace("#Replace_Me", username);
-            Elements elements = Jsoup.connect(jet).userAgent("Mozilla/5.0").get().select("ul[class=stories-list] > li[class=story] > div[class=story-post]");
+            Elements elements = Jsoup.connect(jet).userAgent("Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Mobile Safari/537.36").get().select("ul[class=stories-list] > li[class=story] > div[class=story-post]");
             for (Element element : elements) {
                 String img = element.select("img").attr("src");
                 if (!img.equals(""))
@@ -65,6 +65,7 @@ public class InstaStories extends AsyncTask<Void, Void, ArrayList<String>> {
                 i.putExtra("multi", data);
                 i.putExtra("URL", Profile_Url);
                 i.putExtra("title", "(@" + username + ") Stories");
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(i);
                 activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
