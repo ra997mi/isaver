@@ -111,21 +111,22 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void getVideo(String mUrl, String mName) {
-
-        if (mUrl != null && mName != null) {
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mUrl));
+    private void getVideo() {
+        try {
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mVideoUrl));
             request.allowScanningByMediaScanner();
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MOVIES, mName);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MOVIES, mVideoName);
             DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
             if (dm != null) {
                 dm.enqueue(request);
             }
             Toasty.success(this, getString(R.string.downloading), 1).show();
-        } else
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
             Toasty.error(this, getString(R.string.error), 0).show();
-
+        }
     }
 
     private boolean isPermissionsGranted() {
@@ -203,7 +204,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                     if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
                         mInterstitialAd.show();
                     }
-                    getVideo(mVideoUrl, mVideoName);
+                    getVideo();
                 }
                 break;
             case R.id.share_btn:

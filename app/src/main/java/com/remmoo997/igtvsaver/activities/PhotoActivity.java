@@ -183,7 +183,8 @@ public class PhotoActivity extends AppCompatActivity {
                 dm.enqueue(request);
             }
             Toasty.success(this, getString(R.string.downloading), 0).show();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             ex.printStackTrace();
             Toasty.error(this, getString(R.string.error), 0).show();
         }
